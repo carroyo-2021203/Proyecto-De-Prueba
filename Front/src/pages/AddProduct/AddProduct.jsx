@@ -2,6 +2,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { useEffect, useState } from "react";
 
+const apiserver = import.meta.env.VITE_BACKEND_URL;
+
 export const AddProduct = ()=>{
     const title = 'ADD PRODUCT';
     const [categories, setCategories] = useState([])
@@ -16,7 +18,7 @@ export const AddProduct = ()=>{
                 stock: document.getElementById('inputStock').value,
          
             }
-            const { data } = await axios.post('http://localhost:3200/product/add', product)
+            const { data } = await axios.post(`${apiserver}/product/add`, product)
             alert(data.message)
         }catch(err){
             alert(err.response.data.message)

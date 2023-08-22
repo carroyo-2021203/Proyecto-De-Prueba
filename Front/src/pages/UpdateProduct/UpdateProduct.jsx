@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import axios from 'axios';
 import imgLoading from '../../assets/loading.gif'
 
+const apiserver = import.meta.env.VITE_BACKEND_URL;
+
 export const UpdateProduct = () => {
   const [product, setProduct] = useState({});
   const [loading, setLoading] = useState(true)
@@ -11,7 +13,7 @@ export const UpdateProduct = () => {
 
   const getProduct = async()=>{
     try{
-      const { data } = await axios(`http://localhost:3200/product/get/${id}`)
+      const { data } = await axios(`${apiserver}/product/get/${id}`)
       setProduct(data.product)
       setLoading(false)
     }catch(err){
@@ -29,7 +31,7 @@ export const UpdateProduct = () => {
 
       }
 
-      const { data } = await axios.put(`http://localhost:3200/product/update/${id}`, updateProduct)
+      const { data } = await axios.put(`${apiserver}/product/update/${id}`, updateProduct)
       console.log(data)
     }catch(err){
       console.error(err)
