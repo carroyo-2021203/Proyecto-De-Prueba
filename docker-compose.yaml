@@ -1,0 +1,34 @@
+version: '3.3'
+services:
+  mongo:
+    ports:
+      - '27017:27017'
+    image: mongo
+    networks:
+      - example
+
+  back:
+    ports:
+      - '3200:3200'
+    image: back
+    restart: always
+    networks:
+      - example
+    depends_on:
+      - mongo
+
+  front:
+    ports:
+     - '80:80'
+    image: front
+    restart: always
+    networks:
+      - example
+    environment:
+      - BACKEND_URL=http://back:3200
+    depends_on:
+      - back
+
+networks:
+  example:
+    driver: bridge
