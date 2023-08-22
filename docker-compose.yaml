@@ -8,9 +8,9 @@ services:
       - example
 
   back:
+    build: ./Back/
     ports:
       - '3200:3200'
-    image: back
     restart: always
     networks:
       - example
@@ -18,14 +18,12 @@ services:
       - mongo
 
   front:
+    build: ./Front/
     ports:
      - '80:80'
-    image: front
     restart: always
     networks:
       - example
-    environment:
-      - BACKEND_URL=http://back:3200
     depends_on:
       - back
 

@@ -4,15 +4,16 @@ import axios from "axios";
 import imgLoading from '../../assets/loading.gif'
 import { Link } from "react-router-dom";
 
-const apiserver = process.env.BACKEND_URL
+const apiserver = import.meta.env.VITE_BACKEND_URL;
+
 export const Table = ()=>{
 
     const [products, setProducts] = useState([{}])
     const [loading, setLoading] = useState(true)
-   
+
     const getProducts = async()=>{
         try{
-            const { data } = await axios(`${apiserver}/product/get`)
+            const { data } = await axios.get(`${apiserver}/product/get`)
             setProducts(data.products)
             setLoading(false)
         }catch(err){
@@ -34,16 +35,13 @@ export const Table = ()=>{
     }
 
     //useEffect -> manejo de efectos (actualización del componente) / (DOM)
-    useEffect(()=> getProducts, [])
-/*     if(loading){
-        return(
-            <img src={imgLoading} alt="Loading..." />
-        )
-    }
-     */
+    useEffect(() => {
+        getProducts(); // Es necesario agregar (), en momento de compilacion no funcionara si la llmada solo queda con el nombre del metodo
+    }, []);
+
     return (
-        <>  
-            <Link to='/add'> 
+        <>
+            <Link to='/add'>
                 <button className="btn btn-success mb-5">ADD PRODUCT</button>
             </Link>
             <table>
@@ -64,9 +62,9 @@ export const Table = ()=>{
                                         name={name}
                                         price={price}
                                         stock={stock}
-                             
+
                                     >
-                                    </Product> 
+                                    </Product>
                                     <td>
                                         <Link to={`update/${_id}`}>
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-pencil-fill" viewBox="0 0 16 16">
